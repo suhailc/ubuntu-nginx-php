@@ -9,7 +9,7 @@ The scripts are split into three types, pre.d, post.d and repack. The later is u
 
 ##Requirements
 
-These scripts have onlt been tested on a Ubuntu based distro but should be easily altered to run elsewhere.
+These scripts have only been tested on a Ubuntu based distro but should be easily altered to run elsewhere.
 
     git-core
     bash
@@ -72,7 +72,7 @@ To set the script to not copy files to the root directory change the following v
     prod=1
 
 ####pre.d scripts
-The script will then itterate through scripts/pre.d/XXXX and run each script in order. These are simply bash scripts to perform initial tasks such as install dependancies. An example script is provided. Scripts are run in order so 00-.... will be run before 01-....
+The script will then itterate through scripts/pre.d/XXXX and run each script in order. These are simply bash scripts to perform initial tasks such as install dependencies. An example script is provided. Scripts are run in order so 00-.... will be run before 01-....
 
 ####exploding files
 This part of the script takes the contents of files/.... and copies them to / This allows you to include files such as a custom motd or something more useful like a sites-enabled config for nginx or apache. To set the script to not copy files to the root directory change the following value to 0 in this case the files will be copied to /tmp/c4-bootstrap.
@@ -99,7 +99,7 @@ The repack scripts live in the scripts/repack directory. Care should be taken wh
 #####00-suckfiles.sh
 suck files enables repack.sh to pull back into the local directory all the changes you've made on the system in specified directories. in the example script it purely backs up /var/www. It handles /var/www in a special way to compensate for the fact you may have a lot of files in that location by tar.gz the directory and storing it in files/var/tmp/SiteContent.tgz this is also referenced by bootstrap.sh and is exploded in post.d/00-explode-files.sh
 
-Other directories specified are simply copied to files/....... verbatum.
+Other directories specified are simply copied to files/....... verbatim.
 
 You can add extra locations to be backed up by modifying the array below in scripts/repack/00-suckfiles.sh:
 
