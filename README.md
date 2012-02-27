@@ -109,7 +109,7 @@ the folowing would also copy the contents of /etc/apache2/
 
     working_dirs=( /var/www/ /etc/apache2/ )
 
-##Files
+###Files
 
 The file structure of the system is kept within files, this should be treated as a mirror of your root / for example files/etc/nginx/nginx.conf after bootstrap.sh is run will map to /etc/nginx/nginx.conf
 
