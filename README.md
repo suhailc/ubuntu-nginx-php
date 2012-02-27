@@ -9,23 +9,27 @@ The scripts are split into three types, pre.d, post.d and repack. The later is u
 
 ##Requirements
 
-git-core
-bash
-Ubuntu
-tar
-gzip
+These scripts have onlt been tested on a Ubuntu based distro but should be easily altered to run elsewhere.
+
+    git-core
+    bash
+    tar
+    gzip
 
 ##HOWTO c4-bootstrap
 
 Fire up your Ubuntu server or EC2 instance.
 
-Now clone this git repo onto your new server:
+Now fork this git repo and clone onto your new server:
 
-    git clone https://github.com/channel4/c4-bootstrap.git
+    First click the fork button on the c4-bootstrap github page
+    git clone https://github.com/*<USERNAME>*/c4-bootstrap.git
+    cd c4-bootstrap
+    
+Now keep track of upstream script changes:
 
-You now need to update you git remote server path so you can commit changes back to your private repo, thus creating a repeatable server settings repo:
-
-    git .....
+    git remote add upstream git://github.com/channel4/c4-bootstrap.git
+    git fetch upstream
 
 Create some custom scripts to install software and prep the system in scripts/pre.d (make sure they are bash scripts)
 
@@ -39,11 +43,11 @@ Don't forget to commit your changes back to git.
 
     git add *
     git commit -a
-    git push
+    git push origin master
 
 Now one a fresh server you can simply:
 
-    git clone https://github.com/channel4/c4-bootstrap.git
+    git clone https://github.com/<USERNAME>/c4-bootstrap.git
     ./bootstrap.sh
 
 This will replicate your system onto the new server.
@@ -108,5 +112,4 @@ the folowing would also copy the contents of /etc/apache2/
 ##Files
 
 The file structure of the system is kept within files, this should be treated as a mirror of your root / for example files/etc/nginx/nginx.conf after bootstrap.sh is run will map to /etc/nginx/nginx.conf
-
 
