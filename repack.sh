@@ -3,7 +3,7 @@
 supported_dist="Ubuntu"
 supported_vers="12.04"
 
-working_dirs=( /var/www/public/ /var/www/private/ /etc/cron.d/ /etc/php5/ /etc/nginx/ )
+working_dirs=( /var/www/ )
 files_tmp="files/var/tmp/c4-bootstrap-php"
 timestamp=`date --utc +%s`
 
@@ -43,10 +43,7 @@ function suck_files {
             echo "### Pulling in content from ${var} ###"
             if [[ ${var} == "/var/www/public/" ]]
             then
-                sudo tar cvfz ${files_tmp}/SiteContent.tgz /var/www/public/*
-            elif [[ ${var} == "/var/www/private/" ]]
-            then
-                sudo tar cvfz ${files_tmp}/ENV.tgz /var/www/private/*
+                sudo tar cvfz ${files_tmp}/SiteContent.tgz /var/www/*
             else
                 echo moo
                 sudo cp -Rfp ${var} files${var}
