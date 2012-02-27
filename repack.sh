@@ -1,10 +1,8 @@
 #!/bin/bash
 
 supported_dist="Ubuntu"
-supported_vers="12.04"
+supported_vers="10.04"
 
-working_dirs=( /var/www/ )
-files_tmp="files/var/tmp/c4-bootstrap-php"
 timestamp=`date --utc +%s`
 
 function check_env {
@@ -35,25 +33,16 @@ function git_upload {
     fi    
 }
 
-function suck_files {
-    for var in "${working_dirs[@]}"
+function run_scripts {
+    echo "### Running $1 scripts ###"
+    for i in `ls scripts/$1` ;
     do
-        if [[ -d ${var} ]]
-        then
-            echo "### Pulling in content from ${var} ###"
-            if [[ ${var} == "/var/www/public/" ]]
-            then
-                sudo tar cvfz ${files_tmp}/SiteContent.tgz /var/www/*
-            else
-                echo moo
-                sudo cp -Rfp ${var} files${var}
-            fi
-        else
-            echo "### WARNING: Directory does not exist! ###"
-        fi
+        echo "### Running $i ###"
+        sudo /bin/bash scripts/$1/$i ;
     done
+    echo "### DONE ###"
 }
 
 check_env
-suck_files
+run_scripts repack
 git_upload
