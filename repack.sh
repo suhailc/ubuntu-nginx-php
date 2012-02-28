@@ -24,8 +24,8 @@ function git_upload {
     if [[ "$REPLY" == "y" || "$REPLY" == "Y" ]]
     then
         echo "### Prepreping Git for upload ###"
-        echo "git add *"
-        git commit -m "${timestamp}"
+        git add *
+        git commit -a -m "${timestamp}"
         git push
     else
         echo "### ERROR: Failed to upload to Git ###"
