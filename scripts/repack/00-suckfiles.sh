@@ -19,7 +19,7 @@ function suck_files {
                 sudo tar cvfz ${files_tmp}/SiteContent.tgz /var/www/*
             else
                 # Copy the rest of the files verbatum and put them in the files directory
-                sudo cp -Rfp ${var} files${var}
+                sudo cp -Rfp ${var}/* files${var}/
             fi
         else
             echo "### WARNING: Directory does not exist! ###"
