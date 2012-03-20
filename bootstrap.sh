@@ -23,11 +23,11 @@ function explode_files {
     if [ ${prod} -eq 1 ]
     then
         echo "### PROD System Used ###"
-        cp -Rfp files/* /
+        cp -Rf files/* /
     else
         echo "### NON PROD System Using /tmp/bootstrap ###"
         mkdir /tmp/bootstrap
-        cp -Rfp files/* /tmp/bootstrap/
+        cp -Rf files/* /tmp/bootstrap/
     fi
     echo "### DONE ###"
 }
