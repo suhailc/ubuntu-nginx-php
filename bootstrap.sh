@@ -26,7 +26,15 @@ prod=1
 
 #############################################
 
+function check_sudo {
+   if [ "$(id -u)" != "0" ]; then
+       echo "This script requires root.  Try 'sudo ./bootstrap.sh'" 1>&2
+       exit 1
+   fi
+}
+
 function check_env {
+    check_sudo
     distro=`lsb_release -i | awk -F " " '{ print $3 }'`
     version=`lsb_release -r | awk -F " " '{ print $2 }'`
     echo "### Checking System ###"
