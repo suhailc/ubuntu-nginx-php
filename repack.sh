@@ -50,7 +50,7 @@ function check_env {
 }
 
 function git_upload {
-    read -p "write 'Have you updated your Git Repo settings' (y/N)? "
+    read -p "write 'Do you want to commit and push changes to github? ' (y/N)? "
     if [[ "$REPLY" == "y" || "$REPLY" == "Y" ]]
     then
         echo "### Prepreping Git for upload ###"
