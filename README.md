@@ -127,8 +127,7 @@ By default __00-suckfiles.sh__ doesn't back anything up. In order to make it bac
     /etc/apache2/
     .....
 
-All these files will then be pulled into your core directory.
-
+All these files will then be pulled into your github __files__, the only folder we treat differently is __/var/www/__ because generally this has a large number of files we create a tar.gz of this to be expanded at boot strap time.
 
 ###Files
 
