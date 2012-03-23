@@ -2,6 +2,15 @@
 # This script pulls in changes in specified working directories and adds them to the local directory structure
 
 working_dirs=( /var/www/ )
+
+if [[ -f working_dirs ]]
+then
+    working_dirs=(`cat working_dirs`)
+else
+    echo "WARNING NOTHING CONFIGURED FOR BACKUP!!!"
+    exit 1
+fi
+
 files_tmp="files/var/tmp/c4-bootstrap"
 timestamp=`date --utc +%s`
 

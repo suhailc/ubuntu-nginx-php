@@ -121,17 +121,14 @@ This ensures that you are packaging for the same version as the bootstrap.sh
 ####repack scripts
 The repack scripts live in the scripts/repack directory. Care should be taken when editing current scripts or adding to this directory.
 #####00-suckfiles.sh
-suck files enables repack.sh to pull back into the local directory all the changes you've made on the system in specified directories. in the example script it purely backs up /var/www. It handles /var/www in a special way to compensate for the fact you may have a lot of files in that location by tar.gz the directory and storing it in files/var/tmp/SiteContent.tgz this is also referenced by bootstrap.sh and is exploded in post.d/00-explode-files.sh
+By default __00-suckfiles.sh__ doesn't back anything up. In order to make it back up simply create a file called __scripts/repack/working_dirs__ and list on separate lines which directories you wish to be backed up:
 
-Other directories specified are simply copied to files/....... verbatim.
+    /var/www/
+    /etc/apache2/
+    .....
 
-You can add extra locations to be backed up by modifying the array below in scripts/repack/00-suckfiles.sh:
+All these files will then be pulled into your core directory.
 
-    working_dirs=( /var/www/ )
-
-the folowing would also copy the contents of /etc/apache2/
-
-    working_dirs=( /var/www/ /etc/apache2/ )
 
 ###Files
 
