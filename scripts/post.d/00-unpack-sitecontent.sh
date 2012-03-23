@@ -5,9 +5,9 @@ for i in SiteContent.tgz ; do
     if [ -f /var/tmp/c4-bootstrap/${i} ]
     then
     echo "### Unpacking previous content ###"
-        if [[ ${i} == "SiteContent.tgz" ]]; then STATIC_DIR=/var/www/public/ ; fi
+        if [[ ${i} == "SiteContent.tgz" ]]; then STATIC_DIR=/var/www/ ; fi
         mkdir ${STATIC_DIR}
-        tar xvfz /var/tmp/c4-bootstrap/${i} -C ${STATIC_DIR} --strip-components 3
+        tar xvfz /var/tmp/c4-bootstrap/${i} -C ${STATIC_DIR} --strip-components 2
     fi ;
 done
 
