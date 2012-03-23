@@ -1,4 +1,4 @@
 #!/bin/sh
 
-dpkg --get-selections > /tmp/base-installed-software
+dpkg --get-selections > files/var/tmp/base-installed-software
 
