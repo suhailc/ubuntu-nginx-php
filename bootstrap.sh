@@ -67,10 +67,10 @@ function explode_files {
 
 function run_scripts {
     echo "### Running $1 scripts ###"
-    for i in `ls scripts/$1` ;
+    for i in `ls scripts/$1/*.sh` ;
     do 
         echo "### Running $i ###"
-        sudo /bin/bash scripts/$1/$i ; 
+        sudo /bin/bash $i ; 
     done
     echo "### DONE ###"
 }

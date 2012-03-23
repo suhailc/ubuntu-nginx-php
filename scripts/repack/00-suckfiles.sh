@@ -1,11 +1,9 @@
 #!/bin/bash
 # This script pulls in changes in specified working directories and adds them to the local directory structure
 
-working_dirs=( /var/www/ )
-
-if [[ -f working_dirs ]]
+if [[ -f scripts/repack/working_dirs ]]
 then
-    working_dirs=(`cat working_dirs`)
+    working_dirs=(`cat scripts/repack/working_dirs`)
 else
     echo "WARNING NOTHING CONFIGURED FOR BACKUP!!!"
     exit 1
