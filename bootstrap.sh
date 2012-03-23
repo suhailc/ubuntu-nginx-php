@@ -24,7 +24,10 @@ supported_dist="Ubuntu"
 supported_vers="10.04"
 prod=1
 
-#############################################
+
+###########################################################
+#### Dont edit below here unless you want new features ####
+###########################################################
 
 function check_sudo {
    if [ "$(id -u)" != "0" ]; then
