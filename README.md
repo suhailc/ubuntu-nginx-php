@@ -1,18 +1,30 @@
 #c4-bootstrap
 
-A quick and lightweight configuration tool to build servers (cloud or real) to a consistent install level, provided by channel4.com.
+This project is a lightweight framework for configuring, administrating and building servers consistently at the install level. It is designed for both the cloud and 'real' hardware. It is currently actively developed and maintained by channel4.com.
 
 ##Concept
 
-c4-bootstrap is designed to help you deploy repeatable physical or cloud servers using git as version control. When you build systems by hand there are normally three main stages. You start by installing the base packages, you then copy your files to the server and finally you tweak your config files. 
+c4-bootstrap is designed to aid repeatable deployment of physical and cloud servers. It uses the concept of "infrastructure as code", allowing the use of git to version control entire deployment strategies. 
 
-To replicate this we've developed the lightweight configuration package which consists of _scripts/pre.d_ which installs your base packages, the _files/_ directory which mimics the root of your server (For ease of use you should consider _files/_ as a mirror image of your _/_ directory) and is copied onto the system after _pre.d_ is run then the _scripts/post.d_ which you can use to configure your system.
+Building and deploying systems manually can be construed in three main stages. These are namely; a) installing the base packages, b) copying core files to the server and c) tweaking the relevenet configuration files. 
 
-We also provide a script called _repack.sh_, which enables you to pull changes you've made on your system back into the git repo to store for a later date. One thing you should note that if you install extra packages on your system via a package manager such as apt-get you need to update your install scripts in _scripts/pre.d_ so that when you rebuild a system all the requirements are there.
+###Core components
+
+To replicate this we've developed a lightweight configuration package which consists of several components.
+
+i) _scripts/pre.d_ which installs your base packages.
+ii) A _files/_ directory which mimics the server root. (For ease of use you should consider _files/_ as a mirror image of your _/_ directory). It is copied onto the system after _pre.d_.
+iii) _scripts/post.d_ which is essentially the configuration stage; it is constituted of scripts which run after stages i. and ii, and configure the environment.
+
+###Additional components
+
+Additional to the above, we provide _repack.sh_. This script enables changes made on the system to be pulled back into the git repo to store for a later date. 
+
+N.b. if extra packages are installed on the system via a package manager such as apt-get, the install scripts in _scripts/pre.d_ will need to be updated to reflect this so that all the requirements are present on system rebuild.
 
 ##Sub Projects
 
-The main c4-bootstrap project is designed to be the basis for many sub projects that are far more complex. The core scripts can be reused and tracked by forking this project and we do accept pull requests for new features and bug fixes! If you have an interesting system build using c4-bootstrap please let us know and we'll list them on the wiki.
+The main c4-bootstrap project is designed to be the core framework for other sub-projects to extend. The core scripts can be reused and tracked by forking this project and we do accept pull requests for new features and bug fixes! If you have an interesting system build using c4-bootstrap please let us know and we'll list them on the wiki.
 
 ##Requirements
 
@@ -25,66 +37,71 @@ You can install git on a fresh system by issuing these commands:
     sudo apt-get update
     sudo apt-get install git-core
 
-These will be standard on most linux distro's:
+These toolkits are required, and should be standard on most linux distro's:
 
     bash
     tar
     gzip
 
-##HOWTO c4-bootstrap
+##HOW TO c4-bootstrap
 
-Fire up your Ubuntu server or EC2 instance.
+i.    Fire up a fresh Ubuntu server or EC2 instance. ( see www.ubuntu.com for install and operational instructions )
 
-Now fork this git repo and clone onto your new server:
 
-    First click the fork button on the c4-bootstrap github page
+ii.   Fork this git repo and clone to the new server:
+
+      First click the fork button on the c4-bootstrap github page
     
-    Then using your details amend the following:
+      Then using your details amend the following:
     
-    git clone https://github.com/*<USERNAME>*/c4-bootstrap.git
-    cd c4-bootstrap
+      git clone https://github.com/*<USERNAME>*/c4-bootstrap.git
+      cd c4-bootstrap
     
-Now keep track of upstream script changes:
+    
+iii.  Now keep track of upstream script changes:
 
-    git remote add upstream git://github.com/channel4/c4-bootstrap.git
-    git fetch upstream
+      git remote add upstream git://github.com/channel4/c4-bootstrap.git
+      git fetch upstream
 
-Create some custom scripts to install software and prep the system in scripts/pre.d (make sure they are bash scripts)
 
-Now populate files/ with any files you wish to be included on the system.
+iv.   Create custom bash scripts for software and system configuration, storing them in scripts/pre.d
 
-Finally you should now create your post file expansion tasks in scripts/post.d
 
-If you now run ./bootstrap.sh you should see your actions being carried out on the server.
+v.    Populate files/ with any files to be included on the system.
 
-Don't forget to commit your changes back to git.
 
-    git add *
-    git commit -a
-    git push origin master
+vi.   Finally create any required post file expansion tasks in scripts/post.d
 
-Now one a fresh server you can simply:
+
+vii.  If you now run ./bootstrap.sh; you should see your actions being carried out on the server.
+
+
+viii. Commit the above created changes back to the git repository.
+
+      git add *
+      git commit -a
+      git push origin master
+
+
+Now on a fresh server you can simply type:
 
     git clone https://github.com/<USERNAME>/c4-bootstrap.git
     ./bootstrap.sh
 
-This will replicate your system onto the new server.
+This will replicate steps ii. - vii. for your new system.
 
-##HOWTO c4-repack
 
-repack.sh is designed to help you manage servers that are already bootstraped. Once you have a bootstrapped server edit scripts/repack/00-suckfiles.sh and add more directories to the _working dirs()_ array. This will then allow the repack.sh script to copy these folders/files into the bootstrap files/ directory. On running repack.sh this will automatically copy your configured files into the system and commit them back to git.
 
-##The System
+##HOW TO c4-repack
 
-###bootstrap.sh
-bootstrap.sh allows you to quickly setup your system to specified environment, it will run pre.d and post.d scripts and also copy your directory structure from files to the root of the system. The following explains how the script works. The order of the system bootstrap is:
+repack.sh is designed to help you manage servers that are already bootstraped. Prelimenary to running repack.sh, edit  scripts/repack/00-suckfiles.sh and add any additional directories to the _working dirs()_ array. This allows the repack.sh script to copy these specified folders/files into the bootstrap files/ directory. 
 
-1. pre.d scripts are executed setting up your core components
-2. files are then copied tot he root of your system
-3. post.d scripts are then used to change configuration settings
+Now when you run repack.sh, these files will be automatically copied into the system and committed back to git.
+
+
 
 ####Environment checks
-On running the bootstrap.sh scrip the system checks for the system distro name and the version. The version number can be tweaked at the top of the file by altering the following variable:
+On running the bootstrap.sh script the system checks for the system distrobution name and the version. The version number can be tweaked at the top of the file by altering the following variable:
 
     supported_dist="Ubuntu"
     supported_vers="10.04"
