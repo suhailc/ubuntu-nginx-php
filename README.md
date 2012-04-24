@@ -6,7 +6,7 @@ This project is a lightweight framework for configuring, administrating and buil
 
 c4-bootstrap is designed to aid repeatable deployment of physical and cloud servers. It uses the concept of "infrastructure as code", allowing the use of git to version control entire deployment strategies. 
 
-Building and deploying systems manually can be construed in three main stages. These are namely; a) installing the base packages, b) copying core files to the server and c) tweaking the relevenet configuration files. 
+Building and deploying systems manually can be construed within three main stages. These are namely; a) installing the base packages, b) copying core files to the server and c) tweaking the relevent configuration files. 
 
 ###Core components
 
@@ -101,52 +101,66 @@ Now when you run repack.sh, these files will be automatically copied into the sy
 
 
 ####Environment checks
-On running the bootstrap.sh script the system checks for the system distrobution name and the version. The version number can be tweaked at the top of the file by altering the following variable:
+On running the bootstrap.sh script, the system checks for current distrabution name and version. To change the version number, alter the following variable found at the top of the script:
 
     supported_dist="Ubuntu"
     supported_vers="10.04"
 
-To set the script to not copy files to the root directory change the following value to 0.
+To prevent the script from copying files to the root directory, change the following variable to 0:
 
-    prod=1
+    prod=1 //change to 0;
 
-We currently track the LTS version of Ubuntu so the core scripts will soon change to 12.04 but they should work on any version.
+We currently track the LTS version of Ubuntu so the framework scripts will soon change to 12.04 but should continue to work on any version.
+
+
+## Stages in more detail.
 
 ####pre.d scripts
-The script will then iterate through scripts/pre.d/XXXX and run each script in order. These are simply bash scripts to perform initial tasks such as install dependencies. An example script is provided. Scripts are run in order so 00-.... will be run before 01-....
+The pre.d scripts are the initial component. The framework will iterate through scripts/pre.d/XXXX and run each script in order. These scripts should be simple bash scripts performing initial tasks such as installing dependencies. An example script is provided. Script order processing is deduced from a prefix number, e.g. script 00-example will be run before 01-example.
 
 ####exploding files
-This part of the script takes the contents of files/.... and copies them to / This allows you to include files such as a custom motd or something more useful like a sites-enabled config for nginx or apache. To set the script to not copy files to the root directory change the following value to 0 in this case the files will be copied to /tmp/c4-bootstrap.
+This part of the framework takes the contents of files/.... and copies them to /. This allows you to include files such as a custom motd or elements such as a sites-enabled config for nginx or apache. 
+
+To re-route copying of files to /tmp/c4-bootstrap instead of the / directory, change variable prod in bootstrap.sh to 0.
 
     prod=0
 
 ####post.d
-The final part of the script is post.d. This is called in the same way as pre.d and iterates through scripts/post.d/XXXX. In post.d you should run things that can only be done once the software is installed and the files are in place. An example of this would be _*a2ensite mysite.conf*_. Yet again these are bash scripts and will be run in numerical order.
+The final part of the framework is post.d. This is approached in the same manner as pre.d, iterating through scripts/post.d/XXXX, using number pre-fixes to determine order. Scripts located in post.d should run commands that can only be done once the software is installed and files are shifted to the correct location. 
+
+An example of this would be _*a2ensite mysite.conf*_.
 
 ###repack.sh
-repack.sh allows you to commit local system changes back to a git repo in order repeat these changes on other servers.
+repack.sh allows you to commit local system changes back to a git repo in order to repeat/capture changes for future deployents.
 
 ####Environment checks
-On running the repack.sh scrip the system checks for the system distro name and the version. The version number can be tweaked at the top of the file by altering the following variable:
+When running the repack.sh scrip the system checks for the distro name and version. As mentioned above, the version number can be tweaked at the top of the file by altering the following variable:
 
     supported_dist="Ubuntu"
     supported_vers="10.04"
 
-This ensures that you are packaging for the same version as the bootstrap.sh
+This ensures that you are packaging for the same version as bootstrap.sh
 
 
 ####repack scripts
-The repack scripts live in the scripts/repack directory. Care should be taken when editing current scripts or adding to this directory.
+The repack scripts reside in scripts/repack. 
+Care should be taken when editing existing scripts or adding files to this directory.
+
 #####00-suckfiles.sh
-By default __00-suckfiles.sh__ doesn't back anything up. In order to make it back up simply create a file called __scripts/repack/working_dirs__ and list on separate lines which directories you wish to be backed up:
+By default __00-suckfiles.sh__ does not back anything up. 
+
+To back up specified folders; create a file called __scripts/repack/working_dirs__ and list on separate lines which directories you wish to back up; e.g.
 
     /var/www/
     /etc/apache2/
     .....
 
-All these files will then be pulled into your github __files__, the only folder we treat differently is __/var/www/__ because generally this has a large number of files we create a tar.gz of this to be expanded at boot strap time.
+All these files will then be pulled into your github __files__.
+
+The only folder treated differently is __/var/www/__. Because this generally has a large number of files, we create a tar.gz of this, which is expanded at boot strap time.
 
 ###Files
 
-The file structure of the system is kept within files, this should be treated as a mirror of your root / for example files/etc/nginx/nginx.conf after bootstrap.sh is run will map to /etc/nginx/nginx.conf
+The file structure of the system is kept within files, this should be a mirror of your root / directory.
+For example, after bootstrap.sh is run, files/etc/nginx/nginx.conf will map to /etc/nginx/nginx.conf.
 
