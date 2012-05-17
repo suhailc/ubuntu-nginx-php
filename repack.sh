@@ -21,7 +21,7 @@
 #### Change these values for your system ####
 
 supported_dist="Ubuntu"
-supported_vers="10.04"
+supported_vers="12.04"
 
 #############################################
 
