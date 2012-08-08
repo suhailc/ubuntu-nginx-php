@@ -53,14 +53,28 @@ The following toolkits are required, and should be standard on most Linux distro
 i.    Fire up a fresh Ubuntu server or EC2 instance. ( see www.ubuntu.com for install and operational instructions )
 
 
-ii.   Fork this git repo and clone to the new server:
+ii.   Duplicate this git repo and clone to the new server:
 
-      First click the fork button on the c4-bootstrap github page
+    First duplicate the repo:
     
-      Then using your details amend the following:
+    git clone --bare https://github.com/channel4/c4-bootstrap.git
+    # Make a bare clone of the repo
+
+
+    cd c4-bootstrap
+    git push --mirror https://github.com/*<USERNAME>*/new-repo.git
+    # Mirror-push to the new repo
+
+
+    cd ..
+    rm -rf c4-bootstrap
+    # Remove our temporary local repo
+
+
+Then using your details amend the following:
     
-      git clone https://github.com/*<USERNAME>*/c4-bootstrap.git
-      cd c4-bootstrap
+      git clone https://github.com/*<USERNAME>*/new-repo.git
+      cd new-repo
     
     
 iii.  Now keep track of upstream script changes:
@@ -90,7 +104,8 @@ viii. Commit the above created changes back to the git repository.
 
 Now on a fresh server you can simply type:
 
-    git clone https://github.com/<USERNAME>/c4-bootstrap.git
+    git clone https://github.com/<USERNAME>/new-repo.git
+    cd new-repo
     ./bootstrap.sh
 
 This will replicate steps ii. - vii. for your new system.
@@ -108,7 +123,7 @@ Now when you run repack.sh, these files will be automatically copied into the sy
 On running the bootstrap.sh script, the system checks for current distro name and version. To change the version number, alter the following variable found at the top of the script:
 
     supported_dist="Ubuntu"
-    supported_vers="10.04"
+    supported_vers="12.04"
 
 To prevent the script from copying files to the root directory, change the following variable to 0:
 
@@ -146,7 +161,7 @@ repack.sh allows you to commit local system changes back to a git repo in order 
 When running the repack.sh script the system checks for the distro name and version. As mentioned above, the version number can be tweaked at the top of the file by altering the following variable:
 
     supported_dist="Ubuntu"
-    supported_vers="10.04"
+    supported_vers="12.04"
 
 This ensures that you are packaging for the same version as bootstrap.sh
 
